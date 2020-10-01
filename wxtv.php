@@ -1,0 +1,32 @@
+<?php
+$id=$_GET['id'];
+$type=$_GET['type'];
+$types=$type._channel;
+$url='http://fapi.wifiwx.com/mobile/api/wifiwx4.0/media_home.php?appkey=CshXUoKcUZrBc0OheGbJ7UWgv6b2MSjf&appid=21';
+$ch=curl_init();
+curl_setopt($ch,CURLOPT_URL,$url);
+curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+$data=curl_exec($ch);
+curl_close($ch);
+for($a=0;$a<100;$a++){
+    if(json_decode($data)->$types->data[$a]->code==$id){
+        $json=json_decode($data)->$types->data[$a]->m3u8;
+        break;
+    }
+}
+header('location:'.$json);
+/*频道ID
+无锡新闻综合,?type=tv&id=wxtv1
+无锡娱乐,?type=tv&id=wxtv2
+无锡都市资讯,?type=tv&id=wxtv3
+无锡生活,?type=tv&id=wxtv4
+无锡经济,?type=tv&id=wxtv5
+无锡新闻广播,?type=audio&id=937
+无锡新闻综合广播,?type=audio&id=am1161
+无锡经济广播,?type=audio&id=104
+无锡音乐广播,?type=audio&id=914
+无锡交通广播,?type=audio&id=1069
+无锡梁溪之声广播,?type=audio&id=926
+无锡都市广播,?type=audio&id=881
+*/
+?>
